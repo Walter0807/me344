@@ -4,9 +4,9 @@ Initial screen
 
 - Set enp7s0 to `ON`
 - Set enp8s0 to `ON`
-- Set hostname `me344-cluster-3.stanford.edu`
+- Set hostname to `me344-cluster-3.stanford.edu`
 
-*enp7s0*
+Interface **enp7s0**
 
 - General Tab
     - Enable "Automatically Connect to this network..."
@@ -16,7 +16,7 @@ Initial screen
     - GW = 171.64.116.1
     - DNS = 171.64.1.234
 
-*enp8s0*
+Interface **enp8s0**
 
 - General Tab
     - Enable "Automatically Connect to this network..."
@@ -88,7 +88,7 @@ Restart/enable relevant services to support provisioning
 Define chroot location
 
     export CHROOT=/opt/ohpc/admin/images/centos7.3
-     echo "export CHROOT=/opt/ohpc/admin/images/centos7.3" >> /root/.bashrc
+    echo "export CHROOT=/opt/ohpc/admin/images/centos7.3" >> /root/.bashrc
 
 Build initial chroot image
 
@@ -111,7 +111,7 @@ Enable DNS on nodes
 
     cp -p /etc/resolv.conf $CHROOT/etc/resolv.conf
 
-Edit /etc/hosts -- Add in entry for public/private hostname mapping to IP address [APPEND!]
+Edit /etc/hosts -- Add in entry for public/private hostname mapping to IP address
 
     echo "171.64.116.159 me344-cluster-3.stanford.edu" >> /etc/hosts
     echo "10.1.1.1 me344-cluster-3.localdomain me344-cluster-3" >> /etc/hosts
