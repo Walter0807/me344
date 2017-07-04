@@ -26,6 +26,12 @@ Interface **enp8s0**
 
 ## Cluster Setup
 
+Login as the root user from the commandline. In OSX and Linux systems this can be done remotely within a terminal with:
+
+    ssh root@me344-cluster-2.stanford.edu
+
+Otherwise, you can log onto the physical node with the username `root` and the password set to whatever password you had set during the installation.
+
 Check SELinux
 
     sestatus
