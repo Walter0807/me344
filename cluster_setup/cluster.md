@@ -19,42 +19,43 @@ Interface **eno2**
     - Mask = 255.0.0.0
 
 ## Cluster Setup
-Log onto cluster 
 
- # ssh root@me344-cluster-[N].stanford.edu
+# Log onto cluster 
 
-Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
+    # ssh root@me344-cluster-[N].stanford.edu
 
- # echo "'''171.64.116.[XXX] me344-cluster-[X].stanford.edu'''" &gt;&gt; /etc/hosts
- # echo "10.1.1.1 '''me344-cluster-[X].localdomain me344-cluster-[X]'''" &gt;&gt; /etc/hosts
+# Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
 
- 171.64.116.61 me344-cluster-1.stanford.edu
- 171.64.116.154 me344-cluster-2.stanford.edu
- 171.64.116.159 me344-cluster-3.stanford.edu
- 171.64.116.190 me344-cluster-4.stanford.edu
- 171.64.116.195 me344-cluster-5.stanford.edu
+    # echo "'''171.64.116.[XXX] me344-cluster-[X].stanford.edu'''" &gt;&gt; /etc/hosts
+    # echo "10.1.1.1 '''me344-cluster-[X].localdomain me344-cluster-[X]'''" &gt;&gt; /etc/hosts
 
-Check SELinux 
+    171.64.116.61 me344-cluster-1.stanford.edu
+    171.64.116.154 me344-cluster-2.stanford.edu
+    171.64.116.159 me344-cluster-3.stanford.edu
+    171.64.116.190 me344-cluster-4.stanford.edu
+    171.64.116.195 me344-cluster-5.stanford.edu
 
- # sestatus
+# Check SELinux 
 
-Disable SELinux 
+    # sestatus
 
- # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
- # reboot
+# Disable SELinux 
 
-Verify SElinux is disabled 
+    # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+    # reboot
 
- # sestatus
+# Verify SElinux is disabled 
 
-Disable firewall 
+    # sestatus
 
- # systemctl disable firewalld
- # systemctl stop firewalld
+# Disable firewall 
 
-Update system 
+    # systemctl disable firewalld
+    # systemctl stop firewalld
 
- # yum -y update
+# Update system 
+
+    # yum -y update
 
 Install OHPC repo (it also installs EPEL repo) 
 
