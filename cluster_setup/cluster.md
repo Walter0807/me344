@@ -20,11 +20,11 @@ Interface **eno2**
 
 ## Cluster Setup
 
-# Log onto cluster 
+Log onto cluster 
 
     # ssh root@me344-cluster-[N].stanford.edu
 
-# Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
+Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
 
     # echo "'''171.64.116.[XXX] me344-cluster-[X].stanford.edu'''" &gt;&gt; /etc/hosts
     # echo "10.1.1.1 '''me344-cluster-[X].localdomain me344-cluster-[X]'''" &gt;&gt; /etc/hosts
@@ -35,309 +35,307 @@ Interface **eno2**
     171.64.116.190 me344-cluster-4.stanford.edu
     171.64.116.195 me344-cluster-5.stanford.edu
 
-# Check SELinux 
+Check SELinux 
 
     # sestatus
 
-# Disable SELinux 
+Disable SELinux 
 
     # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
     # reboot
 
-# Verify SElinux is disabled 
+Verify SElinux is disabled 
 
     # sestatus
 
-# Disable firewall 
+Disable firewall 
 
     # systemctl disable firewalld
     # systemctl stop firewalld
 
-# Update system 
+Update system 
 
     # yum -y update
 
 Install OHPC repo (it also installs EPEL repo) 
 
- # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
- # yum repolist
+    # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
+    # yum repolist
 
 Add provisioning services on master node 
 
- # yum -y groupinstall ohpc-base
- # yum -y groupinstall ohpc-warewulf
+    # yum -y groupinstall ohpc-base
+    # yum -y groupinstall ohpc-warewulf
 
 Configure time services 
 
- # systemctl enable ntpd.service
- # echo "server time.stanford.edu" &gt;&gt; /etc/ntp.conf
- # systemctl restart ntpd
+    # systemctl enable ntpd.service
+    # echo "server time.stanford.edu" &gt;&gt; /etc/ntp.conf
+    # systemctl restart ntpd
 
-<br> Install slurm server meta-package 
+Install slurm server meta-package 
 
- # yum -y install ohpc-slurm-server
+    # yum -y install ohpc-slurm-server
 
 Identify resource manager hostname on master host 
 
- # perl -pi -e "s/ControlMachine=\S+/ControlMachine=me344-cluster-[X]/" /etc/slurm/slurm.conf
+    # perl -pi -e "s/ControlMachine=\S+/ControlMachine=me344-cluster-[X]/" /etc/slurm/slurm.conf
 
-<br> Configure warewulf provisioning internal interface 
+Configure warewulf provisioning internal interface 
 
- # perl -pi -e "s/device = eth1/device = eno2/" /etc/warewulf/provision.conf
+    # perl -pi -e "s/device = eth1/device = eno2/" /etc/warewulf/provision.conf
 
 Enable tftp service for compute node image distribution 
 
- # perl -pi -e "s/^\s+disable\s+= yes/ disable = no/" /etc/xinetd.d/tftp
+    # perl -pi -e "s/^\s+disable\s+= yes/ disable = no/" /etc/xinetd.d/tftp
 
 Restart/enable relevant services to support provisioning 
 
- # systemctl restart xinetd
- # systemctl enable mariadb.service
- # systemctl restart mariadb
- # systemctl enable httpd.service
- # systemctl restart httpd
- # systemctl enable dhcpd.service
+    # systemctl restart xinetd
+    # systemctl enable mariadb.service
+    # systemctl restart mariadb
+    # systemctl enable httpd.service
+    # systemctl restart httpd
+    # systemctl enable dhcpd.service
 
 Define chroot location 
 
- # export CHROOT=/opt/ohpc/admin/images/centos7.5
+    # export CHROOT=/opt/ohpc/admin/images/centos7.5
 
 Add to your local environment for future use 
 
- #  echo "export CHROOT=/opt/ohpc/admin/images/centos7.5" &gt;&gt; /root/.bashrc
+    # echo "export CHROOT=/opt/ohpc/admin/images/centos7.5" &gt;&gt; /root/.bashrc
 
-<br> Build initial chroot image 
+Build initial chroot image 
 
- # wwmkchroot centos-7 $CHROOT
+    # wwmkchroot centos-7 $CHROOT
 
 Update CentOS 
 
- # yum -y --installroot=$CHROOT update
+    # yum -y --installroot=$CHROOT update
 
 Install compute node base meta-package 
 
- # yum -y --installroot=$CHROOT install ohpc-base-compute
+    # yum -y --installroot=$CHROOT install ohpc-base-compute
 
 Enable DNS on nodes 
 
- # cp -p /etc/resolv.conf $CHROOT/etc/resolv.conf
+    # cp -p /etc/resolv.conf $CHROOT/etc/resolv.conf
 
 Add Slurm client support meta-package 
 
- # yum -y --installroot=$CHROOT install ohpc-slurm-client
+    # yum -y --installroot=$CHROOT install ohpc-slurm-client
 
 Add Network Time Protocol (NTP) support 
 
- # yum -y --installroot=$CHROOT install ntp
+    # yum -y --installroot=$CHROOT install ntp
 
 Add kernel drivers 
 
- # yum -y --installroot=$CHROOT install kernel
+    # yum -y --installroot=$CHROOT install kernel
 
 Include modules user environment and ipmitool 
 
- # yum -y --installroot=$CHROOT install lmod-ohpc ipmitool
+    # yum -y --installroot=$CHROOT install lmod-ohpc ipmitool
 
 Initialize warewulf database and ssh_keys 
 
- # wwinit database
- # wwinit ssh_keys
+    # wwinit database
+    # wwinit ssh_keys
 
 Add NFS client mounts of /home and /opt/ohpc/pub to base image 
 
- # echo "10.1.1.1:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
- # echo "10.1.1.1:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
+    # echo "10.1.1.1:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
+    # echo "10.1.1.1:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
 
 Export /home and OpenHPC public packages from master server 
 
- # echo "/home *(rw,no_subtree_check,fsid=10,no_root_squash)" &gt;&gt; /etc/exports
- # echo "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)" &gt;&gt; /etc/exports
- # exportfs -a
- # systemctl restart nfs-server
- # systemctl enable nfs-server
+    # echo "/home *(rw,no_subtree_check,fsid=10,no_root_squash)" &gt;&gt; /etc/exports
+    # echo "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)" &gt;&gt; /etc/exports
+    # exportfs -a
+    # systemctl restart nfs-server
+    # systemctl enable nfs-server
 
 Enable NTP time service on computes and identify master host as local NTP server 
 
- # chroot $CHROOT systemctl enable ntpd
- # echo "server 10.1.1.1" &gt;&gt; $CHROOT/etc/ntp.conf
+    # chroot $CHROOT systemctl enable ntpd
+    # echo "server 10.1.1.1" &gt;&gt; $CHROOT/etc/ntp.conf
 
 Define compute node forwarding destination 
 
- # echo "*.* @10.1.1.1:514" &gt;&gt; $CHROOT/etc/rsyslog.conf
+    # echo "*.* @10.1.1.1:514" &gt;&gt; $CHROOT/etc/rsyslog.conf
 
 Disable most local logging on computes. Emergency and boot logs will remain on the compute nodes 
 
- # perl -pi -e "s/^\*\.info/\\#\*\.info/" $CHROOT/etc/rsyslog.conf
- # perl -pi -e "s/^authpriv/\\#authpriv/" $CHROOT/etc/rsyslog.conf
- # perl -pi -e "s/^mail/\\#mail/" $CHROOT/etc/rsyslog.conf
- # perl -pi -e "s/^cron/\\#cron/" $CHROOT/etc/rsyslog.conf
- # perl -pi -e "s/^uucp/\\#uucp/" $CHROOT/etc/rsyslog.conf
+    # perl -pi -e "s/^\*\.info/\\#\*\.info/" $CHROOT/etc/rsyslog.conf
+    # perl -pi -e "s/^authpriv/\\#authpriv/" $CHROOT/etc/rsyslog.conf
+    # perl -pi -e "s/^mail/\\#mail/" $CHROOT/etc/rsyslog.conf
+    # perl -pi -e "s/^cron/\\#cron/" $CHROOT/etc/rsyslog.conf
+    # perl -pi -e "s/^uucp/\\#uucp/" $CHROOT/etc/rsyslog.conf
 
 Import files 
 
- # wwsh file import /etc/passwd
- # wwsh file import /etc/group
- # wwsh file import /etc/shadow
- # wwsh file import /etc/slurm/slurm.conf
- # wwsh file import /etc/munge/munge.key
+    # wwsh file import /etc/passwd
+    # wwsh file import /etc/group
+    # wwsh file import /etc/shadow
+    # wwsh file import /etc/slurm/slurm.conf
+    # wwsh file import /etc/munge/munge.key
 
 Set provisioning interface as the default networking device 
 
- # echo "GATEWAYDEV=eth0" &gt; /tmp/network.$$
- # echo "GATEWAY=10.1.1.1" &gt; /tmp/network.$$
- # wwsh -y file import /tmp/network.$$ --name network
- # wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0
+    # echo "GATEWAYDEV=eth0" &gt; /tmp/network.$$
+    # echo "GATEWAY=10.1.1.1" &gt; /tmp/network.$$
+    # wwsh -y file import /tmp/network.$$ --name network
+    # wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0
 
 Build bootstrap image 
 
- # wwbootstrap `uname -r`
+    # wwbootstrap `uname -r`
 
 Assemble VNFS image 
 
- # wwvnfs --chroot $CHROOT
-
-<br> 
+    # wwvnfs --chroot $CHROOT
 
 Add nodes to Warewulf data store: 
 
 '''CLUSTER 1:''' 
 
- wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:b5:9c
- wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:ba:ac
- wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:b5:f4
- wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:bb:e0
+    wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:b5:9c
+    wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:ba:ac
+    wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:b5:f4
+    wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:bb:e0
 
-<br> '''CLUSTER 2:''' 
+'''CLUSTER 2:''' 
 
- wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:97:14
- wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:cf:88
- wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:c8:78
- wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:cc:00
+    wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:97:14
+    wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:cf:88
+    wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:c8:78
+    wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:cc:00
 
 '''CLUSTER 3:''' 
 
- wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:70
- wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:b4
- wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:de:b0
- wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:de:00
+    wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:70
+    wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:b4
+    wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:de:b0
+    wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:de:00
 
 '''CLUSTER 4:''' 
 
- wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:00
- wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:bc
- wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:cb:1c
- wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:b4
+    wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:00
+    wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:bc
+    wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:cb:1c
+    wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:b4
 
 '''CLUSTER 5:''' 
 
- wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:de:24
- wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:b0:c4
- wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:d1:7c
- wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:d4
+    wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:de:24
+    wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:b0:c4
+    wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:d1:7c
+    wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:d4
 
-<br> Define provisioning image for hosts 
+Define provisioning image for hosts 
 
- # wwsh -y provision set "compute-*" --vnfs=centos7.5 --bootstrap=`uname -r` --files=dynamic_hosts,passwd,group,shadow,network,slurm.conf,munge.key
+    # wwsh -y provision set "compute-*" --vnfs=centos7.5 --bootstrap=`uname -r` --files=dynamic_hosts,passwd,group,shadow,network,slurm.conf,munge.key
 
 Restart dhcp / update PXE 
 
- # systemctl restart dhcpd
- # wwsh pxe update
+    # systemctl restart dhcpd
+    # wwsh pxe update
 
 Start compute nodes with IPMITOOL 
 
- # ipmitool -H 10.1.1.11 -U admin -P superuser chassis power cycle
- # ipmitool -H 10.1.2.11 -U admin -P superuser chassis power cycle
- # ipmitool -H 10.1.3.11 -U admin -P superuser chassis power cycle
- # ipmitool -H 10.1.4.11 -U admin -P superuser chassis power cycle
+    # ipmitool -H 10.1.1.11 -U admin -P superuser chassis power cycle
+    # ipmitool -H 10.1.2.11 -U admin -P superuser chassis power cycle
+    # ipmitool -H 10.1.3.11 -U admin -P superuser chassis power cycle
+    # ipmitool -H 10.1.4.11 -U admin -P superuser chassis power cycle
 
 You can view progress of the installation with the following command line option: 
 
- # tail -f /var/log/messages
+    # tail -f /var/log/messages
 
 To end, use CTRL+C 
 
-<br> Kerberos Auth 
+Kerberos Auth 
 
- # yum -y install pam_krb5
- # scp [SUNETID]@knl-login:/etc/krb5.conf /etc/
- # authconfig --enablekrb5 --update
+    # yum -y install pam_krb5
+    # scp [SUNETID]@knl-login:/etc/krb5.conf /etc/
+    # authconfig --enablekrb5 --update
 
-Add users<br> 
+Add users 
 
- # useradd -m [SUNETID]
+    # useradd -m [SUNETID]
 
 Push changes to compute nodes: 
 
- # wwsh file resync passwd shadow group
+    # wwsh file resync passwd shadow group
 
 Shouldn't be necessary, but this command pulls changes from the master node: 
 
- # pdsh -w compute-1-[1-4] /warewulf/bin/wwgetfiles
+    # pdsh -w compute-1-[1-4] /warewulf/bin/wwgetfiles
 
 Quick checks... 
 
 Switch to a user account: 
 
- # su - [SUNETID]
+    # su - [SUNETID]
 
 Run the uptime command on 4 compute nodes: 
 
- $ pdsh -w compute-1-[1-4] uptime
+    $ pdsh -w compute-1-[1-4] uptime
  
  Output should resemble this:
  
- compute-1-3:  12:40:53 up 11 min,  0 users,  load average: 0.00, 0.10, 0.13
- compute-1-4:  12:40:12 up 10 min,  0 users,  load average: 0.00, 0.08, 0.11
- compute-1-1:  12:41:00 up 11 min,  0 users,  load average: 0.01, 0.09, 0.11
- compute-1-2:  12:40:53 up 11 min,  0 users,  load average: 0.00, 0.09, 0.12
+    compute-1-3:  12:40:53 up 11 min,  0 users,  load average: 0.00, 0.10, 0.13
+    compute-1-4:  12:40:12 up 10 min,  0 users,  load average: 0.00, 0.08, 0.11
+    compute-1-1:  12:41:00 up 11 min,  0 users,  load average: 0.01, 0.09, 0.11
+    compute-1-2:  12:40:53 up 11 min,  0 users,  load average: 0.00, 0.09, 0.12
 
-<br> 
+# Exercise #1
+Add Ganglia Monitoring to your cluster. Instructions are located in the Open HPC Installation Guide for CentOS using Werewolf and Slurm, located here:
+https://github.com/openhpc/ohpc/releases/download/v1.3.5.GA/Install_guide-CentOS7-Warewulf-SLURM-1.3.5-x86_64.pdf 
 
-Exercise #1 Add Ganglia Monitoring to your cluster. Instructions are located in the Open HPC Installation Guide for CentOS using Werewolf and Slurm, located here: https://github.com/openhpc/ohpc/releases/download/v1.3.5.GA/Install_guide-CentOS7-Warewulf-SLURM-1.3.5-x86_64.pdf 
+# Exercise #2
+Verify Slurm is installed and reporting all nodes in an "Idle" state. You can execute the following command to show nodes in an "Idle" state: 
 
-Exercise #2 Verify Slurm is installed and reporting all nodes in an "Idle" state. You can execute the following command to show nodes in an "Idle" state: 
-
- # sinfo -t idle
+    # sinfo -t idle
 
 You can also invoke the sinfo command with no arguments 
 
 Output should be similar to this: 
 
- sinfo 
- PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
- normal*      up   infinite      4   idle compute-1-[1-4]
+    sinfo 
+    PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+    normal*      up   infinite      4   idle compute-1-[1-4]
 
 If not working, here are some things to consider... 
 
- 1. Is slurm enabled and started on master and compute nodes?
- 2. If nodes are in a "Drain" state, have you checked the following
- a. /var/log/slurmctld.log
- b. scontrol show node [nodename]
- 3. Have you defined everything correctly in the Slurm configuration file?
+    1. Is slurm enabled and started on master and compute nodes?
+    2. If nodes are in a "Drain" state, have you checked the following
+       a. /var/log/slurmctld.log
+       b. scontrol show node [nodename]
+    3. Have you defined everything correctly in the Slurm configuration file?
 
-Exercise #3 When you have completed the installation of your cluster, including exercise #1 and #2, re-install CentOS on your master node and complete an automated installation of Open HPC. The general steps are: 
+# Exercise #3
+When you have completed the installation of your cluster, including exercise #1 and #2, re-install CentOS on your master node and complete an automated installation of Open HPC. The intent of this project is to re-create the cluster built in the steps above, including steps from exercise #1 and #2, using the automated cluster build process. The general steps are: 
 
 Log onto cluster 
 
- # ssh root@me344-cluster-[N].stanford.edu
+    # ssh root@me344-cluster-[N].stanford.edu
 
 Install OHPC repo (it also installs EPEL repo) 
 
- # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
+    # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
 
 Install OHPC docs RPM (includes input and recipe for automated installation) 
 
- # yum -y install docs-ohpc
+    # yum -y install docs-ohpc
 
 The input file for the automated installation is located at: 
 
- /opt/ohpc/pub/doc/recipes/centos7/input.local
+     /opt/ohpc/pub/doc/recipes/centos7/input.local
 
 Once you have modified input.local with correct values for your cluster, you can execute the automated installation file located at 
 
- # sh /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh
+    # sh /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh
 
-You can compare items in recipe.sh and the instructions used to build your initial cluster to validate values used for input.local 
-
-<br> 
+You can compare items in recipe.sh and the instructions used to build your initial cluster to validate values used for input.local
