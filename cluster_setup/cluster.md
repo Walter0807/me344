@@ -26,8 +26,8 @@ Log onto cluster
 
 Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
 
-    # echo "'''171.64.116.[XXX] me344-cluster-[X].stanford.edu'''" &gt;&gt; /etc/hosts
-    # echo "10.1.1.1 '''me344-cluster-[X].localdomain me344-cluster-[X]'''" &gt;&gt; /etc/hosts
+    # echo "171.64.116.[XXX] me344-cluster-[X].stanford.edu" >> /etc/hosts
+    # echo "10.1.1.1 me344-cluster-[X].localdomain me344-cluster-[X]" >> /etc/hosts
 
     171.64.116.61 me344-cluster-1.stanford.edu
     171.64.116.154 me344-cluster-2.stanford.edu
@@ -70,7 +70,7 @@ Add provisioning services on master node
 Configure time services 
 
     # systemctl enable ntpd.service
-    # echo "server time.stanford.edu" &gt;&gt; /etc/ntp.conf
+    # echo "server time.stanford.edu" >> /etc/ntp.conf
     # systemctl restart ntpd
 
 Install slurm server meta-package 
@@ -104,7 +104,7 @@ Define chroot location
 
 Add to your local environment for future use 
 
-    # echo "export CHROOT=/opt/ohpc/admin/images/centos7.5" &gt;&gt; /root/.bashrc
+    # echo "export CHROOT=/opt/ohpc/admin/images/centos7.5" >> /root/.bashrc
 
 Build initial chroot image 
 
@@ -145,13 +145,13 @@ Initialize warewulf database and ssh_keys
 
 Add NFS client mounts of /home and /opt/ohpc/pub to base image 
 
-    # echo "10.1.1.1:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
-    # echo "10.1.1.1:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0" &gt;&gt; $CHROOT/etc/fstab
+    # echo "10.1.1.1:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0" >> $CHROOT/etc/fstab
+    # echo "10.1.1.1:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0" >> $CHROOT/etc/fstab
 
 Export /home and OpenHPC public packages from master server 
 
-    # echo "/home *(rw,no_subtree_check,fsid=10,no_root_squash)" &gt;&gt; /etc/exports
-    # echo "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)" &gt;&gt; /etc/exports
+    # echo "/home *(rw,no_subtree_check,fsid=10,no_root_squash)" >> /etc/exports
+    # echo "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)" >> /etc/exports
     # exportfs -a
     # systemctl restart nfs-server
     # systemctl enable nfs-server
@@ -159,11 +159,11 @@ Export /home and OpenHPC public packages from master server
 Enable NTP time service on computes and identify master host as local NTP server 
 
     # chroot $CHROOT systemctl enable ntpd
-    # echo "server 10.1.1.1" &gt;&gt; $CHROOT/etc/ntp.conf
+    # echo "server 10.1.1.1" >> $CHROOT/etc/ntp.conf
 
 Define compute node forwarding destination 
 
-    # echo "*.* @10.1.1.1:514" &gt;&gt; $CHROOT/etc/rsyslog.conf
+    # echo "*.* @10.1.1.1:514" >> $CHROOT/etc/rsyslog.conf
 
 Disable most local logging on computes. Emergency and boot logs will remain on the compute nodes 
 
@@ -183,8 +183,8 @@ Import files
 
 Set provisioning interface as the default networking device 
 
-    # echo "GATEWAYDEV=eth0" &gt; /tmp/network.$$
-    # echo "GATEWAY=10.1.1.1" &gt; /tmp/network.$$
+    # echo "GATEWAYDEV=eth0" > /tmp/network.$$
+    # echo "GATEWAY=10.1.1.1" >> /tmp/network.$$
     # wwsh -y file import /tmp/network.$$ --name network
     # wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0
 
@@ -198,35 +198,35 @@ Assemble VNFS image
 
 Add nodes to Warewulf data store: 
 
-'''CLUSTER 1:''' 
+CLUSTER 1: 
 
     wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:b5:9c
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:ba:ac
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:b5:f4
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:bb:e0
 
-'''CLUSTER 2:''' 
+CLUSTER 2: 
 
     wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:97:14
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:cf:88
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:c8:78
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:cc:00
 
-'''CLUSTER 3:''' 
+CLUSTER 3:
 
     wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:70
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:b4
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:de:b0
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:de:00
 
-'''CLUSTER 4:''' 
+CLUSTER 4:
 
     wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:cd:00
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:bc
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:cb:1c
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:b4
 
-'''CLUSTER 5:''' 
+CLUSTER 5:
 
     wwsh -y node new compute-1-1 --ipaddr=10.1.1.10 --hwaddr=00:a0:d1:ee:de:24
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:b0:c4
