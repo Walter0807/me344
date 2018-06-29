@@ -142,6 +142,7 @@ Initialize warewulf database and ssh_keys
 
     # wwinit database
     # wwinit ssh_keys
+    # cat ~/.ssh/cluster.pub >> $CHROOT/root/.ssh/authorized_keys
 
 Add NFS client mounts of /home and /opt/ohpc/pub to base image 
 
