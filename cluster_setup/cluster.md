@@ -347,6 +347,10 @@ The input file for the automated installation is located at:
 
      /opt/ohpc/pub/doc/recipes/centos7/input.local
 
+Fix issue in recipe.sh for IPMI password
+
+    # sed -i -e "s/chassis power reset/-P \${bmc_password} chassis power reset/g" /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh
+
 Once you have modified input.local with correct values for your cluster, you can execute the automated installation file located at 
 
     # sh /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh
