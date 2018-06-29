@@ -81,6 +81,11 @@ Identify resource manager hostname on master host
 
     # perl -pi -e "s/ControlMachine=\S+/ControlMachine=me344-cluster-[X]/" /etc/slurm/slurm.conf
 
+Enabled Slurm controller and Munge
+
+    # systemctl enable slurmctld
+    # systemctl start munge
+
 Configure warewulf provisioning internal interface 
 
     # perl -pi -e "s/device = eth1/device = eno2/" /etc/warewulf/provision.conf
