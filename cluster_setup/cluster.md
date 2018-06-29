@@ -328,6 +328,12 @@ Log onto cluster
 
     # ssh root@me344-cluster-[N].stanford.edu
 
+Disable SELinux and default route on internal network
+
+    # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+    # perl -pi -e "s/DEFROUTE=yes/DEFROUTE=no/" /etc/sysconfig/network-scripts/ifcfg-eno2
+    # reboot
+
 Install OHPC repo (it also installs EPEL repo) 
 
     # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
