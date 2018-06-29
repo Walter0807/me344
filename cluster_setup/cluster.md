@@ -39,9 +39,10 @@ Check SELinux
 
     # sestatus
 
-Disable SELinux 
+Disable SELinux and default route on internal network
 
     # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
+    # perl -pi -e "s/DEFROUTE=yes/DEFROUTE=no/" /etc/sysconfig/network-scripts/ifcfg-eno2
     # reboot
 
 Verify SElinux is disabled 
