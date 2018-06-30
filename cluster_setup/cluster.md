@@ -389,7 +389,7 @@ You can compare items in recipe.sh and the instructions used to build your initi
 NOTE: There are issues with recipe.sh related to Slurm. You need to correctly define compute nodes in slurm.conf, then something along the following (after completion of running recipe.sh)
 
     # chroot /opt/ohpc/admin/images/centos7.5 systemctl enable slurmd
-    # wwvnfs /opt/ohpc/admin/images/centos7.5
+    # wwvnfs --chroot=/opt/ohpc/admin/images/centos7.5
 
 Make appropriate changes to slurm.conf
 
@@ -397,4 +397,4 @@ Make appropriate changes to slurm.conf
     # systemctl restart slurmctld
     # wwsh ssh c* reboot
  
-You can earn a bonus of 5% to apply towards your grade by submitting a working fix for the above Slurm issue in recipe.sh
+You can earn a bonus of up to 5% to apply towards your grade by submitting a working fix for the above IPMI and Slurm issue in recipe.sh
