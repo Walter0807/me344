@@ -397,3 +397,4 @@ Make appropriate changes to slurm.conf
     # systemctl restart slurmctld
     # wwsh ssh c* reboot
  
+You can earn a bonus of 5% to apply towards your grade by submitting a working fix for the above Slurm issue in recipe.sh
