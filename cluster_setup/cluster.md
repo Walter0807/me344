@@ -381,3 +381,15 @@ Once you have modified input.local with correct values for your cluster, you can
     # sh /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh
 
 You can compare items in recipe.sh and the instructions used to build your initial cluster to validate values used for input.local
+
+NOTE: There are issues with recipe.sh related to Slurm. You need to correctly define compute nodes in slurm.conf, then something along the following (after completion of running recipe.sh)
+
+    # chroot /opt/ohpc/admin/images/centos7.5 systemctl enable slurmd
+    # wwvnfs /opt/ohpc/admin/images/centos7.5
+
+Make appropriate changes to slurm.conf
+
+    # wwsh file sync slurm.conf
+    # systemctl restart slurmctld
+    # wwsh ssh c* reboot
+ 
