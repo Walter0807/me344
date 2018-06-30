@@ -82,6 +82,10 @@ Identify resource manager hostname on master host
 
     # perl -pi -e "s/ControlMachine=\S+/ControlMachine=me344-cluster-[X]/" /etc/slurm/slurm.conf
 
+Change default node state for nodes returning to service (automatically return to service if all resources report correctly)
+
+    # perl -pi -e "s/ReturnToService=1/ReturnToService=2/" /etc/slurm/slurm.conf
+
 Enabled Slurm controller and Munge
 
     # systemctl enable slurmctld
