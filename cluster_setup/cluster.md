@@ -358,6 +358,11 @@ Log onto cluster
 
     # ssh root@me344-cluster-[N].stanford.edu
 
+Modify /etc/hosts -- Add entry for public/private hostname mapping to IP address 
+
+    # echo "171.64.116.[XXX] me344-cluster-[X].stanford.edu" >> /etc/hosts
+    # echo "10.1.1.1 me344-cluster-[X].localdomain me344-cluster-[X]" >> /etc/hosts
+
 Disable SELinux and default route on internal network
 
     # perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
