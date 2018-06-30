@@ -211,6 +211,11 @@ CLUSTER 1:
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:ba:ac
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:b5:f4
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:bb:e0
+    
+    wwsh -y node new ipmi-compute-1-1 --ipaddr=10.1.1.11 --hwaddr=00:a0:d1:ee:b5:9f
+    wwsh -y node new ipmi-compute-1-2 --ipaddr=10.1.2.11 --hwaddr=00:a0:d1:ee:ba:af
+    wwsh -y node new ipmi-compute-1-3 --ipaddr=10.1.3.11 --hwaddr=00:a0:d1:ee:b5:f7
+    wwsh -y node new ipmi-compute-1-4 --ipaddr=10.1.4.11 --hwaddr=00:a0:d1:ee:bb:e3
 
 CLUSTER 2: 
 
@@ -218,6 +223,11 @@ CLUSTER 2:
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:cf:88
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:c8:78
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:cc:00
+    
+    wwsh -y node new ipmi-compute-1-1 --ipaddr=10.1.1.11 --hwaddr=00:a0:d1:ee:97:17
+    wwsh -y node new ipmi-compute-1-2 --ipaddr=10.1.2.11 --hwaddr=00:a0:d1:ee:cf:8b
+    wwsh -y node new ipmi-compute-1-3 --ipaddr=10.1.3.11 --hwaddr=00:a0:d1:ee:c8:7b
+    wwsh -y node new ipmi-compute-1-4 --ipaddr=10.1.4.11 --hwaddr=00:a0:d1:ee:cc:03
 
 CLUSTER 3:
 
@@ -225,6 +235,11 @@ CLUSTER 3:
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:b4
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:de:b0
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:de:00
+    
+    wwsh -y node new ipmi-compute-1-1 --ipaddr=10.1.1.11 --hwaddr=00:a0:d1:ee:cd:73
+    wwsh -y node new ipmi-compute-1-2 --ipaddr=10.1.2.11 --hwaddr=00:a0:d1:ee:c9:b7
+    wwsh -y node new ipmi-compute-1-3 --ipaddr=10.1.3.11 --hwaddr=00:a0:d1:ee:de:b3
+    wwsh -y node new ipmi-compute-1-4 --ipaddr=10.1.4.11 --hwaddr=00:a0:d1:ee:de:03
 
 CLUSTER 4:
 
@@ -232,6 +247,11 @@ CLUSTER 4:
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:c9:bc
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:cb:1c
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:b4
+    
+    wwsh -y node new ipmi-compute-1-1 --ipaddr=10.1.1.11 --hwaddr=00:a0:d1:ee:cd:03
+    wwsh -y node new ipmi-compute-1-2 --ipaddr=10.1.2.11 --hwaddr=00:a0:d1:ee:c9:bf
+    wwsh -y node new ipmi-compute-1-3 --ipaddr=10.1.3.11 --hwaddr=00:a0:d1:ee:cb:1f
+    wwsh -y node new ipmi-compute-1-4 --ipaddr=10.1.4.11 --hwaddr=00:a0:d1:ee:ca:b7
 
 CLUSTER 5:
 
@@ -239,6 +259,11 @@ CLUSTER 5:
     wwsh -y node new compute-1-2 --ipaddr=10.1.2.10 --hwaddr=00:a0:d1:ee:b0:c4
     wwsh -y node new compute-1-3 --ipaddr=10.1.3.10 --hwaddr=00:a0:d1:ee:d1:7c
     wwsh -y node new compute-1-4 --ipaddr=10.1.4.10 --hwaddr=00:a0:d1:ee:ca:d4
+    
+    wwsh -y node new ipmi-compute-1-1 --ipaddr=10.1.1.11 --hwaddr=00:a0:d1:ee:de:27
+    wwsh -y node new ipmi-compute-1-2 --ipaddr=10.1.2.11 --hwaddr=00:a0:d1:ee:b0:c7
+    wwsh -y node new ipmi-compute-1-3 --ipaddr=10.1.3.11 --hwaddr=00:a0:d1:ee:d1:7f
+    wwsh -y node new ipmi-compute-1-4 --ipaddr=10.1.4.11 --hwaddr=00:a0:d1:ee:ca:d7
 
 Define provisioning image for hosts 
 
