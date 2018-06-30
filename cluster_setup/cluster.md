@@ -406,4 +406,4 @@ Make appropriate changes to slurm.conf
 
 You can earn a bonus of up to 5% to apply towards your grade by submitting a working fix for the above IPMI and Slurm issue in recipe.sh
 
-The fix can be via BASH modifications to the existing recipe.sh, or via patch file.
+The fix can be via bash modifications to the existing recipe.sh, or via patch file.
