@@ -406,4 +406,21 @@ Make appropriate changes to slurm.conf
 
 You can earn a bonus of up to 5% to apply towards your grade by submitting a working fix for the above IPMI and Slurm issue in recipe.sh
 
-The fix can be via bash modifications to the existing recipe.sh, or via patch file.
+The fix needs to be implemented in a copy of /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh with a difference file created and submitted. For example, you may do the following:
+
+    $ cd
+    $ cp /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+
+Make changes to recipe-fix.sh and print differences to screen
+
+    $ diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+
+Your changes may look similar to this if you find the username "test" and replace with "sunetid"
+
+    # diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fe.sh 
+    503c503
+    < useradd -m test
+    ---
+    > useradd -m sunetid
+
+This is an example of what to include with your submission for consideration of bonus to apply towards your grade.
