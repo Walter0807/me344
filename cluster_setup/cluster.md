@@ -203,9 +203,11 @@ Build bootstrap image
 
     # wwbootstrap `uname -r`
 
-Assemble VNFS image 
+Assemble VNFS image
 
     # wwvnfs --chroot $CHROOT
+
+HINT ~ remember to create a new image every time you make changes to the compute node (chroot) environment
 
 Add nodes to Warewulf data store: 
 
@@ -318,6 +320,10 @@ Switch to a user account:
 Run the uptime command on 4 compute nodes: 
 
     $ pdsh -w compute-1-[1-4] uptime
+
+Another option for running commands on compute nodes is
+
+    $ wwsh ssh c* uptime
  
  Output should resemble this:
  
