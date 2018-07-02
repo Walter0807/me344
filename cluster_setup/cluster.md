@@ -330,6 +330,11 @@ Run the uptime command on 4 compute nodes:
 Add Ganglia Monitoring to your cluster. Instructions are located in the Open HPC Installation Guide for CentOS using Werewolf and Slurm, located here:
 https://github.com/openhpc/ohpc/releases/download/v1.3.5.GA/Install_guide-CentOS7-Warewulf-SLURM-1.3.5-x86_64.pdf 
 
+If not working, here are some things to consider...
+
+    1. Is everything defined correctly in gmond.conf?
+    2. Is ganglia enabled and started on master and compute nodes?
+
 # Exercise #2
 Verify Slurm is installed and reporting all nodes in an "Idle" state. You can execute the following command to show nodes in an "Idle" state: 
 
