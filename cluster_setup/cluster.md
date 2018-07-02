@@ -415,8 +415,9 @@ Make changes to recipe-fix.sh and print differences to screen
 
     $ diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
 
-Your changes may look similar to this if you find the username "test" and replace with "sunetid"
+Your differences may look similar to this if you find the username "test" and replace with "sunetid"
 
+    $ diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
     503c503
     < useradd -m test
     ---
