@@ -424,14 +424,15 @@ The fix needs to be implemented in a copy of /opt/ohpc/pub/doc/recipes/centos7/x
 
 Make changes to recipe-fix.sh and print differences to screen
 
-    $ diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+    $ diff -u /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
 
 Your differences may look similar to this if you find the username "test" and replace with "sunetid"
 
-    $ diff /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
-    503c503
-    < useradd -m test
-    ---
-    > useradd -m sunetid
+    $ diff -u /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+    @@ -1,512 +1,512 @@
+     file
+    
+    -useradd -m sunetid
+    +useradd -m test
 
 This is an example of what to include with your submission for consideration of bonus to apply towards your grade.
