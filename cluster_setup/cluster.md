@@ -203,9 +203,11 @@ Build bootstrap image
 
     # wwbootstrap `uname -r`
 
-Assemble VNFS image 
+Assemble VNFS image
 
     # wwvnfs --chroot $CHROOT
+
+HINT ~ remember to create a new image every time you make changes to the compute node (chroot) environment
 
 Add nodes to Warewulf data store: 
 
@@ -318,6 +320,10 @@ Switch to a user account:
 Run the uptime command on 4 compute nodes: 
 
     $ pdsh -w compute-1-[1-4] uptime
+
+Another option for running commands on compute nodes is
+
+    $ wwsh ssh c* uptime
  
  Output should resemble this:
  
@@ -329,6 +335,11 @@ Run the uptime command on 4 compute nodes:
 # Exercise #1
 Add Ganglia Monitoring to your cluster. Instructions are located in the Open HPC Installation Guide for CentOS using Werewolf and Slurm, located here:
 https://github.com/openhpc/ohpc/releases/download/v1.3.5.GA/Install_guide-CentOS7-Warewulf-SLURM-1.3.5-x86_64.pdf 
+
+If not working, here are some things to consider...
+
+    1. Is everything defined correctly in gmond.conf?
+    2. Is ganglia enabled and started on master and compute nodes?
 
 # Exercise #2
 Verify Slurm is installed and reporting all nodes in an "Idle" state. You can execute the following command to show nodes in an "Idle" state: 
@@ -406,4 +417,22 @@ Make appropriate changes to slurm.conf
 
 You can earn a bonus of up to 5% to apply towards your grade by submitting a working fix for the above IPMI and Slurm issue in recipe.sh
 
-The fix can be via bash modifications to the existing recipe.sh, or via patch file.
+The fix needs to be implemented in a copy of /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh with a difference file created and submitted. For example, you may do the following:
+
+    $ cd
+    $ cp /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+
+Make changes to recipe-fix.sh and print differences to screen
+
+    $ diff -u /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+
+Your differences may look similar to this if you find the username "test" and replace with "sunetid"
+
+    $ diff -u /opt/ohpc/pub/doc/recipes/centos7/x86_64/warewulf/slurm/recipe.sh recipe-fix.sh
+    @@ -1,512 +1,512 @@
+     file
+    
+    -useradd -m sunetid
+    +useradd -m test
+
+This is an example of what to include with your submission for consideration of bonus to apply towards your grade.
