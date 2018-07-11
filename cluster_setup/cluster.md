@@ -49,16 +49,16 @@ Verify SElinux is disabled
 
     # sestatus
 
-Disable firewall 
+Disable the firewall service on the master node 
 
     # systemctl disable firewalld
     # systemctl stop firewalld
 
-Update system 
+Update the master node CentOS installation 
 
     # yum -y update
 
-Install OHPC repo (it also installs EPEL repo) 
+Install OHPC repository on master node (it also installs EPEL repo) 
 
     # yum -y install http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm 
     # yum repolist
@@ -68,7 +68,7 @@ Add provisioning services on master node
     # yum -y groupinstall ohpc-base
     # yum -y groupinstall ohpc-warewulf
 
-Configure time services 
+Configure time services on master node and restart service
 
     # systemctl enable ntpd.service
     # echo "server time.stanford.edu" >> /etc/ntp.conf
@@ -86,7 +86,7 @@ Change default node state for nodes returning to service (automatically return t
 
     # perl -pi -e "s/ReturnToService=1/ReturnToService=2/" /etc/slurm/slurm.conf
 
-Enabled Slurm controller and Munge
+Enable Slurm controller and Munge on the master node
 
     # systemctl enable slurmctld
     # systemctl start munge
@@ -99,7 +99,7 @@ Enable tftp service for compute node image distribution
 
     # perl -pi -e "s/^\s+disable\s+= yes/ disable = no/" /etc/xinetd.d/tftp
 
-Restart/enable relevant services to support provisioning 
+Restart/enable relevant services to support provisioning on the master node
 
     # systemctl restart xinetd
     # systemctl enable mariadb.service
@@ -108,7 +108,7 @@ Restart/enable relevant services to support provisioning
     # systemctl restart httpd
     # systemctl enable dhcpd.service
 
-Define chroot location 
+Define chroot location for compute node installation of CentOS
 
     # export CHROOT=/opt/ohpc/admin/images/centos7.5
 
@@ -120,7 +120,7 @@ Build initial chroot image
 
     # wwmkchroot centos-7 $CHROOT
 
-Update CentOS 
+Update compute node installation of CentOS
 
     # yum -y --installroot=$CHROOT update
 
@@ -136,7 +136,7 @@ Add Slurm client support meta-package
 
     # yum -y --installroot=$CHROOT install ohpc-slurm-client
 
-Add Network Time Protocol (NTP) support 
+Add Network Time Protocol (NTP) on compute nodes
 
     # yum -y --installroot=$CHROOT install ntp
 
@@ -167,7 +167,7 @@ Export /home and OpenHPC public packages from master server
     # systemctl restart nfs-server
     # systemctl enable nfs-server
 
-Enable NTP time service on computes and identify master host as local NTP server 
+Enable NTP time service on compute node installation and identify master host as local NTP server 
 
     # chroot $CHROOT systemctl enable ntpd
     # echo "server 10.1.1.1" >> $CHROOT/etc/ntp.conf
