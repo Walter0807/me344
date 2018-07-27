@@ -1,7 +1,16 @@
-#TO COMPILE WITH OPENMP
+MAX TREE Instructions
+# to compile with openmp
 icc -g -qopenmp -o maxtre maxtre.cpp 
-#TO COMPILE WITHOUT OPENMP
+# to compilie w/o openmp
 icc -g -o maxtre maxtre.cpp 
-
-#TO RUN
+# to run
 ./maxtre <num_elements>
+
+Matrix Multiply Instructions
+# to compile
+icc -g -DNORMAL -o mm mm.cpp
+icc -g -DOPENMP -qopenmp -o mm mm.cpp
+icc -g -DPERMUTE -o mm mm.cpp
+icc -g -DTILED -o mm mm.cpp
+# to run
+./mm <rank of the matrix>
