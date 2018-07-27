@@ -1,5 +1,5 @@
 #TO COMPILE WITH OPENMP
-icc -g -fopenmp -o maxtre maxtre.cpp 
+icc -g -qopenmp -o maxtre maxtre.cpp 
 #TO COMPILE WITHOUT OPENMP
 icc -g -o maxtre maxtre.cpp 
 
