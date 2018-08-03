@@ -63,7 +63,7 @@ class Solution {
 	}
    }  //kji
 
-   void matrixMultiply4(int *a, int* b, int *c, int n) {  
+   void matrixMultiply5(int *a, int* b, int *c, int n) {  
 	int i,j,k;
 	for(k=0;k<n;++k) {
 	for(i=0;i<n;++i) {
