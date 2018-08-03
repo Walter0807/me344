@@ -17,13 +17,68 @@ class Solution {
 			}
 		}
 	}
-   }  
-   //2333
+   }  //ijk
+
+   void matrixMultiply1(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(i=0;i<n;++i) {
+		for(k=0;k<n;++k) {
+		for(j=0;j<n;++j) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }//ikj
+
+   void matrixMultiply2(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(j=0;j<n;++j) {
+	for(i=0;i<n;++i) {
+			for(k=0;k<n;++k) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //jik
+
+   void matrixMultiply3(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(j=0;j<n;++j) {
+	for(k=0;k<n;++k) {
+	for(i=0;i<n;++i) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //jki
+
+   void matrixMultiply4(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(k=0;k<n;++k) {
+	for(j=0;j<n;++j) {
+	for(i=0;i<n;++i) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //kji
+
+   void matrixMultiply4(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(k=0;k<n;++k) {
+	for(i=0;i<n;++i) {
+	for(j=0;j<n;++j) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //kij
 
 
    void matrixMultiply_permute(int *a, int* b, int *c, int n) {  
 	//permute the loops i,j,k
 	//which one is the best ?
+
    }
 
    void matrixMultiply_openmp(int *a, int* b, int *c, int n) {  
