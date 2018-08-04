@@ -19,54 +19,62 @@ public:
 		}
    }  //ijk
 
- //   void matrixMultiply1(int *a, int* b, int *c, int n) {  
-	// int i,j,k;
-	// for(i=0;i<n;++i) {
-	// 	for(k=0;k<n;++k) {
-	// 	for(j=0;j<n;++j) {
-	// 			c[i*n+j] += a[i*n+k]*b[k*n+j];
-	// 		}
-	// 	}
-	// }
- //   }//ikj
+   void matrixMultiply1(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(i=0;i<n;++i) {
+		for(k=0;k<n;++k) {
+		for(j=0;j<n;++j) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }//ikj
 
- //   void matrixMultiply2(int *a, int* b, int *c, int n) {  
-	// int i,j,k;
-	// for(j=0;j<n;++j) {
-	// for(i=0;i<n;++i) {
-	// 		for(k=0;k<n;++k) {
-	// 			c[i*n+j] += a[i*n+k]*b[k*n+j];
-	// 		}
-	// 	}
-	// }
- //   }  //jik
+   void matrixMultiply2(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(j=0;j<n;++j) {
+	for(i=0;i<n;++i) {
+			for(k=0;k<n;++k) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //jik
 
- //   void matrixMultiply3(int *a, int* b, int *c, int n) {  
-	// int i,j,k;
-	// for(j=0;j<n;++j) {
-	// for(k=0;k<n;++k) {
-	// for(i=0;i<n;++i) {
-	// 			c[i*n+j] += a[i*n+k]*b[k*n+j];
-	// 		}
-	// 	}
-	// }
- //   }  //jki
+   void matrixMultiply3(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(j=0;j<n;++j) {
+	for(k=0;k<n;++k) {
+	for(i=0;i<n;++i) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //jki
 
- //   void matrixMultiply4(int *a, int* b, int *c, int n) {  
+   void matrixMultiply4(int *a, int* b, int *c, int n) {  
 
- //   }  //kji
+   	int i,j,k;
+   	for(k=0;k<n;++k) {
+   		for(j=0;j<n;++j) {
+   			for(i=0;i<n;++i) {
+   				c[i*n+j] += a[i*n+k]*b[k*n+j];
+   			}
+   		}
+   	}
 
- //   void matrixMultiply5(int *a, int* b, int *c, int n) {  
-	// int i,j,k;
-	// for(k=0;k<n;++k) {
-	// for(i=0;i<n;++i) {
-	// for(j=0;j<n;++j) {
-	// 			c[i*n+j] += a[i*n+k]*b[k*n+j];
-	// 		}
-	// 	}
-	// }
- //   }  //kij
+   }  //kji
 
+   void matrixMultiply5(int *a, int* b, int *c, int n) {  
+	int i,j,k;
+	for(k=0;k<n;++k) {
+	for(i=0;i<n;++i) {
+	for(j=0;j<n;++j) {
+				c[i*n+j] += a[i*n+k]*b[k*n+j];
+			}
+		}
+	}
+   }  //kij
 
    void matrixMultiply_permute(int *a, int* b, int *c, int n) {  
    	int i,j,k;
@@ -77,19 +85,17 @@ public:
    			}
    		}
    	}
-}
+   }
 
    void matrixMultiply_openmp(int *a, int* b, int *c, int n) {  
 	//If you can parallelize only one loop, 
 	//using Vtune identify which one you would parallelize ?
 	//please explain the numbers that you saw in vtune 
 	//and hence, why you chose a specific loop
-	int i,j,k;
+   	int i,j,k;
 	#pragma omp parallel for
    	for(k=0;k<n;++k) {
-   		// #pragma omp parallel for
    		for(j=0;j<n;++j) {
-   			// #pragma omp parallel for
    			for(i=0;i<n;++i) {
    				c[i*n+j] += a[i*n+k]*b[k*n+j];
    			}
@@ -144,25 +150,25 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	hello.display(a, n); 
-	hello.display(b, n); 
+	// hello.display(a, n); 
+	// hello.display(b, n); 
 #define TILED
 #ifdef NORMAL
 	hello.matrixMultiply(a, b, c, n);
-	hello.display(c, n); 
+	// hello.display(c, n); 
 #endif
 #ifdef PERMUTE 
 	hello.matrixMultiply_permute(a, b, c, n);
-	hello.display(c, n); 
+	// hello.display(c, n); 
 #endif
 #ifdef OPENMP 
 	hello.matrixMultiply_openmp(a, b, c, n);
-	hello.display(c, n); 
+	// hello.display(c, n); 
 #endif
 #ifdef TILED 
   //ONLY n=MULTIPLE OF 64 
 	hello.matrixMultiply_tiled(a, b, c, n);
-	hello.display(c, n); 
+	// hello.display(c, n); 
 #endif
 }
 
